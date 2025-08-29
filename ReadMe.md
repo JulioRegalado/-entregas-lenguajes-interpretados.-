@@ -17,3 +17,9 @@ Me gusta que me llamen Guillermo o Guille y desde siempre me han gustado los vid
 
 [Fotomia](Assets/Yo.jpg)# -entregas-lenguajes-interpretados.-
 # -entregas-lenguajes-interpretados.-
+
+## Entregables
+
+- Practica 1
+- [apuntes](mds/apuntes.md)
+
