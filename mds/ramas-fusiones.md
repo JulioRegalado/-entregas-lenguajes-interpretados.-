@@ -23,3 +23,5 @@
 
 ### En esta materia estamos viendo como hacer un videojuego a detalle, la historiaa, mecanicas, mapas, ideas etc. Y vamos a adentrarnos más a lo 3D.
 
+![Diseño-De-Videojuegos](../Assets/Diseño-De-Videojuegos.jpg)
+
