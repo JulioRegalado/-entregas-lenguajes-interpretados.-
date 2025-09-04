@@ -1,18 +1,7 @@
-# ”Asignaturas 3DEV
-
 ## Sistemas Operativos 
 
-## Profesor: Alcides albora 
+## Profesor: Alcides Albora 
 
-### En esta materia estamos viendo una introducción a los sistemas operativos de la computadora y también a como instalar ubuntu y Linux.
+### En esta materia estamos viendo una introducción a los sistemas operativos de la computadora, y vimos como instalar ubuntu y linux para aprender a usarlos.
 
-[Imagen-Sistemas-operativos](../Assets/Sistemas%20operativos.jpg)
-
-
-## Principios de Composición y Diseño 
-
-## Profesor: Roberto Melo 
-
-### En esta materia estamos aprendiendo un curso basico de photoshop, sus distintas herramientas para arreglar errores de una fotografia o hacer un fotomontaje.
-
-![Imagen-comp-y-Diseño](../Assets/Principios%20de%20composición%20y%20diseño.jpg)
+![Sistemas-Operativos](../Assets/Sistemas%20operativos.jpg)
