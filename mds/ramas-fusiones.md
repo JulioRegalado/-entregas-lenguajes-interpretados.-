@@ -16,3 +16,11 @@
 ### En esta materia estamos aprendiendo un curso basico de photoshop, sus distintas herramientas para arreglar errores de una fotografia o hacer un fotomontaje.
 
 ![Imagen-comp-y-Diseño](../Assets/Principios%20de%20composición%20y%20diseño.jpg)
+
+## Programación de lenguajes interpretados
+
+## Profesor: Jonathan Miranda 
+
+### En esta materia estamos viendo como programar con markdown y html, al igual que estamos viendo como usar la pagina github para poder trabajr en equipo de manera efectiva.
+
+![Imagen-Lenguajes-Inter](../Assets/Lenguajes%20interpretados.jpg)
