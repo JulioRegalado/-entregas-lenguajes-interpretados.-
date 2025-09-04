@@ -6,7 +6,7 @@
 
 ### En esta materia estamos viendo una introducción a los sistemas operativos de la computadora y también a como instalar ubuntu y Linux.
 
-[Imagen-Sistemas-operativos](../Assets/Sistemas%20operativos.jpg)
+![Imagen-Sistemas-operativos](../Assets/Sistemas%20operativos.jpg)
 
 
 ## Principios de Composición y Diseño 
@@ -16,3 +16,10 @@
 ### En esta materia estamos aprendiendo un curso basico de photoshop, sus distintas herramientas para arreglar errores de una fotografia o hacer un fotomontaje.
 
 ![Imagen-comp-y-Diseño](../Assets/Principios%20de%20composición%20y%20diseño.jpg)
+
+## Diseño De videojuegos
+
+## Profesor: Ana Guadalupe Olivar
+
+### En esta materia estamos viendo como hacer un videojuego a detalle, la historiaa, mecanicas, mapas, ideas etc. Y vamos a adentrarnos más a lo 3D.
+
