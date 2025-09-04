@@ -20,6 +20,7 @@
 
 ![Imagen-comp-y-Diseño](../Assets/Principios%20de%20composición%20y%20diseño.jpg)
 
+<<<<<<< HEAD
 ## Diseño De videojuegos
 
 ## Profesor: Ana Guadalupe Olivar
@@ -28,4 +29,14 @@
 
 ![Diseño-De-Videojuegos](../Assets/Diseño-De-Videojuegos.jpg)
 
+
+=======
+## Ingles
+
+## Profesor: Nancy
+
+### En esta materia estamos tomando un curso basico de ingles para poder reforzarlo y hablar con más fluidez y ampliar nuestro vocabulario para usarlo en la vida cotidiana.
+
+![Imagen-Ingles](../Assets/Ingles.png)
+ 
 
