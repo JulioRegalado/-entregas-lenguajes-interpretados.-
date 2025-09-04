@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ”Asignaturas 3DEV
 
 ## Composición y Diseño 
@@ -59,4 +60,13 @@
 ### En esta materia nos  dieron a elegir si hacer una pp o videojuego en unity, y estamos viendo como crear un videojuego, desde las ideas visuales, referencias e inspiraciones de juegos antiguos.
 
 ![Imagen-Proyecto-App](../Assets/Proyecto%20app.jpg)
+
+=======
+## Sistemas Operativos 
+
+## Profesor: Alcides Albora 
+
+### En esta materia estamos viendo una introducción a los sistemas operativos de la computadora, y vimos como instalar ubuntu y linux para aprender a usarlos.
+
+![Sistemas-Operativos](../Assets/Sistemas%20operativos.jpg)
 
