@@ -39,3 +39,14 @@
 ## Profesor: Johnathan Miranda 
 
 ### En esta materia estamos aprendiendo a usar vs code(Visual studio code) junto con las aplicaciónes de gitbash y github para trabajar en equipo, y el lenguaje de markdown.
+
+[Imagen-Lenguajes-inter](../Assets/Lenguajes%20interpretados.jpg)
+
+
+## Inglés
+
+## Profesor: Nancy
+
+### En esta materia estamos viendo un repaso basico de inglés un poco más formal y completo para extender nuestro vocabulario y hablar con más fluidez.
+
+[Imagen-Ingles](../Assets/Ingles.png)
