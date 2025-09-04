@@ -22,6 +22,7 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 ## Diseño De videojuegos
 
 ## Profesor: Ana Guadalupe Olivar
@@ -49,4 +50,13 @@
 ### En esta materia estamos viendo como programar con markdown y html, al igual que estamos viendo como usar la pagina github para poder trabajr en equipo de manera efectiva.
 
 ![Imagen-Lenguajes-Inter](../Assets/Lenguajes%20interpretados.jpg)
+
+=======
+## Proyecto de app
+
+## Profesor: Eduardo Guerrero 
+
+### En esta materia nos  dieron a elegir si hacer una pp o videojuego en unity, y estamos viendo como crear un videojuego, desde las ideas visuales, referencias e inspiraciones de juegos antiguos.
+
+![Imagen-Proyecto-App](../Assets/Proyecto%20app.jpg)
 
