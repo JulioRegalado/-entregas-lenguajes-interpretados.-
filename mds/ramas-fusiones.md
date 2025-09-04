@@ -16,3 +16,11 @@
 ### En esta materia estamos aprendiendo un curso basico de photoshop, sus distintas herramientas para arreglar errores de una fotografia o hacer un fotomontaje.
 
 ![Imagen-comp-y-Diseño](../Assets/Principios%20de%20composición%20y%20diseño.jpg)
+
+## Proyecto de app
+
+## Profesor: Eduardo Guerrero 
+
+### En esta materia nos  dieron a elegir si hacer una pp o videojuego en unity, y estamos viendo como crear un videojuego, desde las ideas visuales, referencias e inspiraciones de juegos antiguos.
+
+![Imagen-Proyecto-App](../Assets/Proyecto%20app.jpg)
