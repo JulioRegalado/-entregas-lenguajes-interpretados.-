@@ -10,7 +10,7 @@
 <<<<<<< HEAD
 ![Comp-y-Diseño](../Assets/Principios%20de%20composición%20y%20diseño.jpg)
 =======
-![Imagen-Sistemas-operativos](../Assets/Sistemas%20operativos.jpg)
+
 
 
 ## Principios de Composición y Diseño 
