@@ -15,12 +15,4 @@
 
 ### En esta materia estamos aprendiendo un curso basico de photoshop, sus distintas herramientas para arreglar errores de una fotografia o hacer un fotomontaje.
 
-[Imagen-comp-y-Diseño](../Assets/Principios%20de%20composición%20y%20diseño.jpg)
-
-## Diseño de videojuegos 
-
-## Profesor: Ana Guadalupe Olivar
-
-### En esta materia estamos viendo como se hace un videojuego a detalle, los escenarios, historia, diseño de personaje y tambien nos vamos a introducir más a lo 3D
-
-![Imagen-Diseño-De-Videojuegos](../Assets/Diseño-De-Videojuegos.jpg)
+![Imagen-comp-y-Diseño](../Assets/Principios%20de%20composición%20y%20diseño.jpg)
