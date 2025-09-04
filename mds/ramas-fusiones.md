@@ -31,4 +31,11 @@
 ## Profesor: Eduardo Guerrero
 
 ### En esta materia nos dan a elegir si hacemos un videojuego o una app desde unity, y estamos viendo la base de ideas de como se veria el juego.
+[Imagen-Proyecto-app](../Assets/Proyecto%20app.jpg)
 
+
+## Programación de lenguajes interpretados 
+
+## Profesor: Johnathan Miranda 
+
+### En esta materia estamos aprendiendo a usar vs code(Visual studio code) junto con las aplicaciónes de gitbash y github para trabajar en equipo, y el lenguaje de markdown.
