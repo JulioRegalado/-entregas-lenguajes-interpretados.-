@@ -23,4 +23,4 @@
 
 ### En esta materia estamos viendo como se hace un videojuego a detalle, los escenarios, historia, diseño de personaje y tambien nos vamos a introducir más a lo 3D
 
-[Imagen-Diseño-De-Videojuegos]
+![Imagen-Diseño-De-Videojuegos](../Assets/Diseño-De-Videojuegos.jpg)
