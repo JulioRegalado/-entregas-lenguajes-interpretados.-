@@ -26,3 +26,6 @@ Me gusta que me llamen Guillermo o Guille y desde siempre me han gustado los vid
 - Practica 2
 - [Ramas](mds/ramas-fusiones.md)
 
+- Practica 3
+- [Etiquetas](mds/etiquetas.md)
+
