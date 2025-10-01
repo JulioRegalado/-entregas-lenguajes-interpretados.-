@@ -37,7 +37,9 @@ Me gusta que me llamen Guillermo o Guille y desde siempre me han gustado los vid
 
 - Practica 7 
 - [DK gpt version](docs/”practica-6.html%20DK_GPT)
-- [DK Grok version]
+- [DK Grok version](docs/Practica%206.HTML%20DK_grok)
+
+
 
 
 
