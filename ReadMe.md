@@ -32,5 +32,8 @@ Me gusta que me llamen Guillermo o Guille y desde siempre me han gustado los vid
 - Practica 4 
 - [Primer_Examen_Parcial](mds/primer-parcial.md)
 
+- practica 6
+- [DonkeyKong](docs/DonkeyKong.md)
+
 
 
