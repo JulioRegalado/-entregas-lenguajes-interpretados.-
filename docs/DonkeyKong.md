@@ -24,3 +24,5 @@ Donkey kong fue un videojuego lanzado en 1981 por Nintendo y fue de los primeros
 1. Se verifican las colisiones: Si mario toca un barril pierde una vida o si mario llega hasta la cima completa el nivel 
 1. Si aun quedan vidas se reinicia el nivel si no hay vidas es Game over
 1. Se repite hasta que el juego termine.
+
+![Diagrama de flujo donkey kong](../Assets/Diagrama%20de%20flujo%20Donkey%20kong%20.png)
