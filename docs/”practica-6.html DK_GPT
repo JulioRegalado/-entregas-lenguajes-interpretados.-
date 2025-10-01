@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Mini Donkey Kong - Nivel Extendido</title>
+<style>
+  html,body{margin:0;height:100%;background:#000;font-family:Arial;color:#fff}
+  canvas{background:#000;display:block;margin:auto;border:4px solid #fff}
+  #hud{position:absolute;top:10px;left:10px;color:#fff;font-size:18px}
+</style>
+</head>
+<body>
+<div id="hud">
+  Vidas: <span id="lives">3</span> | Puntos: <span id="score">0</span>
+</div>
+<canvas id="game" width="720" height="900"></canvas>
+<script>
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+const W=canvas.width,H=canvas.height;
+let keys={};
+window.addEventListener('keydown',e=>keys[e.code]=true);
+window.addEventListener('keyup',e=>keys[e.code]=false);
+
+let lives=3,score=0,gameState="playing";
+const player={x:60,y:H-140,w:28,h:40,vx:0,vy:0,onGround:false,canJump:true,facing:1};
+
+const level={
+  platforms:[
+    {x:40,y:820,w:640,h:14},
+    {x:40,y:700,w:500,h:14},
+    {x:180,y:580,w:500,h:14},
+    {x:40,y:460,w:640,h:14},
+    {x:40,y:340,w:500,h:14},
+    {x:180,y:220,w:500,h:14},
+    {x:40,y:100,w:640,h:14}
+  ],
+  ladders:[
+    {x:120,y:700,w:40,h:120},
+    {x:420,y:580,w:40,h:120},
+    {x:120,y:460,w:40,h:140},
+    {x:420,y:340,w:40,h:140},
+    {x:320,y:220,w:40,h:120},
+    {x:560,y:100,w:40,h:120}
+  ],
+  dk:{x:300,y:60},
+  pauline:{x:360,y:60},
+  barrelRate:2500
+};
+
+let barrels=[];
+let lastBarrel=0;
+let barrelSpeed=2.2;
+
+function resetPlayer(){
+  player.x=60;player.y=H-140;player.vx=0;player.vy=0;player.onGround=false;
+}
+resetPlayer();
+
+function update(time){
+  if(gameState!=="playing")return;
+  let moveLeft=keys["KeyA"],moveRight=keys["KeyD"],up=keys["KeyW"],down=keys["KeyS"],jump=keys["Space"];
+  player.vx=0;
+  if(moveLeft)player.vx=-2.5,player.facing=-1;
+  if(moveRight)player.vx=2.5,player.facing=1;
+  
+  // Ladders
+  let onLadder=false;
+  for(const lad of level.ladders){
+    if(player.x+player.w>lad.x&&player.x<lad.x+lad.w&&player.y+player.h>lad.y&&player.y<lad.y+lad.h)onLadder=true;
+  }
+  if(onLadder&&(up||down)){
+    if(up)player.y-=2.2;
+    if(down)player.y+=2.2;
+    player.vy=0;
+    player.onGround=true;
+  }else{
+    player.vy+=0.25;
+  }
+  if(jump&&player.onGround&&player.canJump){
+    player.vy=-6;player.onGround=false;player.canJump=false;
+  }
+  if(!jump)player.canJump=true;
+  
+  player.x+=player.vx;
+  player.y+=player.vy;
+  if(player.x<0)player.x=0;if(player.x+player.w>W)player.x=W-player.w;
+  player.onGround=false;
+  for(const p of level.platforms){
+    if(player.x+player.w>p.x&&player.x<p.x+p.w){
+      if(player.y+player.h>p.y&&player.y+player.h<p.y+20&&player.vy>=0){
+        player.y=p.y-player.h;player.vy=0;player.onGround=true;
+      }
+    }
+  }
+
+  // barriles
+  if(time-lastBarrel>level.barrelRate){
+    barrels.push({x:level.dk.x,y:level.dk.y,w:18,h:18,vx:barrelSpeed,vy:0});
+    lastBarrel=time;
+    if(level.barrelRate>800)level.barrelRate-=50; // más frecuentes
+    barrelSpeed+=0.05; // más rápidos
+  }
+  for(const b of barrels){
+    b.x+=b.vx;
+    b.vy+=0.2;
+    b.y+=b.vy;
+    for(const p of level.platforms){
+      if(b.x+b.w>p.x&&b.x<p.x+p.w){
+        if(b.y+b.h>p.y&&b.y+b.h<p.y+20&&b.vy>=0){
+          b.y=p.y-b.h;b.vy=0;
+          // rebote barril
+          if(Math.random()<0.5)b.vx*=-1;
+        }
+      }
+    }
+  }
+
+  // colisión jugador-barril
+  for(const b of barrels){
+    if(player.x< b.x+b.w&&player.x+player.w> b.x&&player.y< b.y+b.h&&player.y+player.h> b.y){
+      lives--;document.getElementById("lives").textContent=lives;
+      resetPlayer();
+      if(lives<=0)gameState="gameover";
+    }
+  }
+
+  // llegada a Pauline
+  if(player.x+player.w>level.pauline.x-20&&player.x<level.pauline.x+20&&player.y<level.pauline.y+40){
+    gameState="win";
+  }
+}
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  // platforms
+  ctx.fillStyle="#2e8b57";
+  for(const p of level.platforms){
+    ctx.fillRect(p.x,p.y,p.w,p.h);
+    ctx.strokeStyle="#222";ctx.strokeRect(p.x,p.y,p.w,p.h);
+  }
+  // ladders
+  ctx.fillStyle="#a0522d";
+  for(const lad of level.ladders){
+    ctx.fillRect(lad.x+6,lad.y,8,lad.h);
+    ctx.fillRect(lad.x+lad.w-14,lad.y,8,lad.h);
+  }
+  // DK
+  ctx.fillStyle="#228b22";
+  ctx.beginPath();ctx.arc(level.dk.x,level.dk.y,26,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle="#310";ctx.fillRect(level.dk.x-22,level.dk.y+16,44,18);
+  // Pauline
+  ctx.fillStyle="#f55";
+  ctx.beginPath();ctx.ellipse(level.pauline.x,level.pauline.y,18,26,0,0,Math.PI*2);ctx.fill();
+  // Mario
+  ctx.save();
+  ctx.translate(player.x+player.w/2,player.y+player.h/2);
+  ctx.scale(player.facing,1);
+  ctx.fillStyle="#d33";ctx.fillRect(-player.w/2,-player.h/2,player.w,player.h);
+  ctx.restore();
+  // barriles
+  ctx.fillStyle="#b5651d";
+  for(const b of barrels){
+    ctx.fillRect(b.x,b.y,b.w,b.h);
+  }
+  // estado
+  if(gameState==="gameover"){
+    ctx.fillStyle="#fff";ctx.font="48px Arial";ctx.fillText("GAME OVER",W/2-140,H/2);
+  }
+  if(gameState==="win"){
+    ctx.fillStyle="#fff";ctx.font="48px Arial";ctx.fillText("¡HAS RESCATADO A PAULINE!",W/2-280,H/2);
+  }
+}
+
+function loop(time){update(time);draw();requestAnimationFrame(loop);}
+loop();
+</script>
+</body>
+</html>
+
+
+
+

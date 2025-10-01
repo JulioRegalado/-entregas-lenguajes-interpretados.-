@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donkey Kong Web Version</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        canvas {
+            border: 1px solid white;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Game constants
+        const GRAVITY = 0.5;
+        const MARIO_SPEED = 3;
+        const JUMP_FORCE = -10;
+        const BARREL_SPEED = 2;
+        const BARREL_ROLL_SPEED = 2;
+
+        // Game state
+        let level = 1;
+        let lives = 3;
+        let score = 0;
+        let gameOver = false;
+        let levelComplete = false;
+
+        // Positions and sizes
+        const PLATFORM_HEIGHT = 20;
+        const MARIO_WIDTH = 30;
+        const MARIO_HEIGHT = 40;
+        const DK_WIDTH = 50;
+        const DK_HEIGHT = 50;
+        const PAULINE_WIDTH = 30;
+        const PAULINE_HEIGHT = 40;
+        const BARREL_WIDTH = 20;
+        const BARREL_HEIGHT = 20;
+
+        // Initial positions
+        let mario = { x: 50, y: canvas.height - PLATFORM_HEIGHT - MARIO_HEIGHT, vx: 0, vy: 0, onGround: true, facingRight: true };
+        let dk = { x: 100, y: 100 - DK_HEIGHT };
+        let pauline = { x: canvas.width - 100, y: 100 - PAULINE_HEIGHT };
+        let platforms = [];
+        let ladders = [];
+        let barrels = [];
+
+        // Generate simple level structure (barrel stage like original)
+        function initLevel() {
+            platforms = [
+                // Bottom platform
+                { x: 0, y: canvas.height - PLATFORM_HEIGHT, width: canvas.width, height: PLATFORM_HEIGHT },
+                // Slanted platforms like original (simulated with positions)
+                { x: 0, y: canvas.height - 150, width: 200, height: PLATFORM_HEIGHT },
+                { x: 200, y: canvas.height - 200, width: 200, height: PLATFORM_HEIGHT },
+                { x: 400, y: canvas.height - 150, width: 200, height: PLATFORM_HEIGHT },
+                { x: 600, y: canvas.height - 200, width: 200, height: PLATFORM_HEIGHT },
+                // Upper platforms
+                { x: 0, y: canvas.height - 300, width: 150, height: PLATFORM_HEIGHT },
+                { x: 150, y: canvas.height - 350, width: 200, height: PLATFORM_HEIGHT },
+                { x: 350, y: canvas.height - 300, width: 200, height: PLATFORM_HEIGHT },
+                { x: 550, y: canvas.height - 350, width: 250, height: PLATFORM_HEIGHT },
+                // Top platform
+                { x: 0, y: 100, width: canvas.width, height: PLATFORM_HEIGHT }
+            ];
+
+            ladders = [
+                { x: 100, y: canvas.height - 300, height: 150, width: 20 },
+                { x: 300, y: canvas.height - 350, height: 150, width: 20 },
+                { x: 500, y: canvas.height - 300, height: 150, width: 20 },
+                { x: 700, y: canvas.height - 350, height: 150, width: 20 },
+                { x: 180, y: 100, height: canvas.height - 350 - 100, width: 20 }, // Connect to upper platform
+                { x: canvas.width / 2, y: 100, height: 200, width: 20 } // Additional to top
+            ];
+
+            barrels = [];
+            mario.x = 50;
+            mario.y = canvas.height - PLATFORM_HEIGHT - MARIO_HEIGHT;
+            mario.vx = 0;
+            mario.vy = 0;
+            mario.onGround = true;
+            dk.x = 100;
+            dk.y = 100 - DK_HEIGHT;
+            pauline.x = canvas.width - 100;
+            pauline.y = 100 - PAULINE_HEIGHT;
+            levelComplete = false;
+        }
+
+        // Keyboard controls
+        const keys = {};
+        window.addEventListener('keydown', (e) => { keys[e.key.toLowerCase()] = true; });
+        window.addEventListener('keyup', (e) => { keys[e.key.toLowerCase()] = false; });
+
+        // Update Mario position
+        function updateMario() {
+            mario.vx = 0;
+
+            if (keys['a']) {
+                mario.vx = -MARIO_SPEED;
+                mario.facingRight = false;
+            } else if (keys['d']) {
+                mario.vx = MARIO_SPEED;
+                mario.facingRight = true;
+            }
+
+            if (keys[' '] && mario.onGround) {
+                mario.vy = JUMP_FORCE;
+                mario.onGround = false;
+            }
+
+            const onLadder = isOnLadder();
+            if (onLadder) {
+                mario.vy = 0; // Prevent falling while on ladder
+            }
+
+            if (keys['w'] && onLadder) {
+                mario.y -= MARIO_SPEED;
+            } else if (keys['s'] && onLadder) {
+                mario.y += MARIO_SPEED;
+            }
+
+            if (!onLadder) {
+                mario.vy += GRAVITY;
+            }
+
+            mario.x += mario.vx;
+            mario.y += mario.vy;
+
+            // Collision with platforms
+            mario.onGround = false;
+            platforms.forEach(platform => {
+                if (mario.x + MARIO_WIDTH > platform.x && mario.x < platform.x + platform.width &&
+                    mario.y + MARIO_HEIGHT > platform.y && mario.y + MARIO_HEIGHT - mario.vy <= platform.y &&
+                    mario.vy >= 0) { // Only land when falling down
+                    mario.y = platform.y - MARIO_HEIGHT;
+                    mario.vy = 0;
+                    mario.onGround = true;
+                }
+            });
+
+            // Wall boundaries
+            if (mario.x < 0) mario.x = 0;
+            if (mario.x + MARIO_WIDTH > canvas.width) mario.x = canvas.width - MARIO_WIDTH;
+            if (mario.y < 0) mario.y = 0;
+        }
+
+        function isOnLadder() {
+            return ladders.some(ladder => 
+                mario.x + MARIO_WIDTH > ladder.x && mario.x < ladder.x + ladder.width &&
+                mario.y + MARIO_HEIGHT > ladder.y && mario.y < ladder.y + ladder.height
+            );
+        }
+
+        // Barrel logic
+        function updateBarrels() {
+            barrels.forEach(barrel => {
+                barrel.x += barrel.vx;
+                barrel.y += barrel.vy;
+                barrel.vy += GRAVITY;
+
+                // Check platform collision
+                let onPlatform = false;
+                platforms.forEach(platform => {
+                    if (barrel.x + BARREL_WIDTH > platform.x && barrel.x < platform.x + platform.width &&
+                        barrel.y + BARREL_HEIGHT > platform.y && barrel.y + BARREL_HEIGHT - barrel.vy <= platform.y) {
+                        barrel.y = platform.y - BARREL_HEIGHT;
+                        barrel.vy = 0;
+                        onPlatform = true;
+                    }
+                });
+
+                if (!onPlatform) {
+                    barrel.vy += GRAVITY;
+                } else {
+                    if (Math.random() < 0.01) barrel.vx = -barrel.vx;
+                }
+
+                // Ladder descend
+                ladders.forEach(ladder => {
+                    if (barrel.x + BARREL_WIDTH > ladder.x && barrel.x < ladder.x + ladder.width &&
+                        barrel.y + BARREL_HEIGHT >= ladder.y && barrel.y <= ladder.y + ladder.height) {
+                        if (Math.random() < 0.1) { // Increased chance
+                            barrel.vy = BARREL_ROLL_SPEED;
+                            barrel.vx = 0;
+                        }
+                    }
+                });
+
+                // Boundaries
+                if (barrel.x < 0 || barrel.x > canvas.width || barrel.y > canvas.height) {
+                    barrels = barrels.filter(b => b !== barrel);
+                }
+            });
+        }
+
+        // Throw barrel from DK
+        let barrelTimer = 0;
+        function throwBarrel() {
+            if (barrelTimer > 60) {
+                const direction = Math.random() < 0.5 ? -BARREL_SPEED : BARREL_SPEED;
+                barrels.push({ x: dk.x + DK_WIDTH / 2, y: dk.y + DK_HEIGHT, vx: direction, vy: 0 });
+                barrelTimer = 0;
+            }
+            barrelTimer++;
+        }
+
+        // Check collisions
+        function checkCollisions() {
+            // Barrel hits Mario
+            barrels.forEach(barrel => {
+                if (mario.x < barrel.x + BARREL_WIDTH && mario.x + MARIO_WIDTH > barrel.x &&
+                    mario.y < barrel.y + BARREL_HEIGHT && mario.y + MARIO_HEIGHT > barrel.y) {
+                    loseLife();
+                }
+            });
+
+            // Mario reaches Pauline
+            if (mario.x < pauline.x + PAULINE_WIDTH && mario.x + MARIO_WIDTH > pauline.x &&
+                mario.y < pauline.y + PAULINE_HEIGHT && mario.y + MARIO_HEIGHT > pauline.y) {
+                completeLevel();
+            }
+        }
+
+        function loseLife() {
+            lives--;
+            if (lives <= 0) {
+                gameOver = true;
+            } else {
+                initLevel(); // Restart level
+            }
+        }
+
+        function completeLevel() {
+            level++;
+            score += 1000;
+            levelComplete = true;
+            setTimeout(() => {
+                initLevel();
+                levelComplete = false;
+            }, 2000);
+        }
+
+        // Draw functions
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw platforms (red)
+            ctx.fillStyle = 'red';
+            platforms.forEach(platform => {
+                ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
+            });
+
+            // Draw ladders (white for visibility)
+            ctx.fillStyle = 'white';
+            ladders.forEach(ladder => {
+                ctx.fillRect(ladder.x, ladder.y, ladder.width, ladder.height);
+            });
+
+            // Draw Mario (blue rectangle)
+            ctx.fillStyle = 'blue';
+            ctx.fillRect(mario.x, mario.y, MARIO_WIDTH, MARIO_HEIGHT);
+
+            // Draw DK (brown rectangle)
+            ctx.fillStyle = 'brown';
+            ctx.fillRect(dk.x, dk.y, DK_WIDTH, DK_HEIGHT);
+
+            // Draw Pauline (pink rectangle)
+            ctx.fillStyle = 'pink';
+            ctx.fillRect(pauline.x, pauline.y, PAULINE_WIDTH, PAULINE_HEIGHT);
+
+            // Draw barrels (brown rectangles)
+            ctx.fillStyle = '#8B4513';
+            barrels.forEach(barrel => {
+                ctx.fillRect(barrel.x, barrel.y, BARREL_WIDTH, BARREL_HEIGHT);
+            });
+
+            // Draw HUD
+            ctx.fillStyle = 'white';
+            ctx.font = '20px Arial';
+            ctx.fillText(`Level: ${level}`, 10, 30);
+            ctx.fillText(`Lives: ${lives}`, 10, 60);
+            ctx.fillText(`Score: ${score}`, 10, 90);
+
+            if (gameOver) {
+                ctx.fillText('Game Over', canvas.width / 2 - 50, canvas.height / 2);
+            } else if (levelComplete) {
+                ctx.fillText('Level Complete!', canvas.width / 2 - 80, canvas.height / 2);
+            }
+        }
+
+        // Game loop
+        function gameLoop() {
+            if (!gameOver) {
+                updateMario();
+                throwBarrel();
+                updateBarrels();
+                checkCollisions();
+            }
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        initLevel();
+        gameLoop();
+    </script>
+</body>
+</html>
