@@ -35,7 +35,9 @@ Me gusta que me llamen Guillermo o Guille y desde siempre me han gustado los vid
 - practica 6
 - [DonkeyKong](docs/DonkeyKong.md)
 
-
+- Practica 7 
+- [DK gpt version](docs/”practica-6.html%20DK_GPT)
+- [DK Grok version]
 
 
 
